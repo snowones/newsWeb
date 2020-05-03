@@ -27,14 +27,14 @@ export default class PCNewsContainer extends React.Component {
                                     <div><img src={img4}/></div>
                                 </Carousel>
                                 <PCNewsImageBlock count={6} type='guoji' width='100%' imageWidth='112px'
-                                                  cartTitle='国际新闻' justifyContent='space-around'/>
+                                                  cartTitle='幼儿疾病知识' justifyContent='space-around'/>
                             </div>
                         </Col>
 
                         <Col span={10}>
                             <div className='top_center'>
                                 <Tabs defaultActiveKey="1">
-                                    <Tabs.TabPane tab='头条新闻' key='1'>
+                                    <Tabs.TabPane tab='今日头条' key='1'>
                                         <PCNewsBlock count={30} type='top' width='100%' bordered='false'/>
                                     </Tabs.TabPane>
                                 </Tabs>
@@ -44,7 +44,7 @@ export default class PCNewsContainer extends React.Component {
                         <Col span={6}>
                             <div className='top_right'>
                                 <PCNewsImageSingle width='100%' ImageWidth='100px' type='shehui' count={6}
-                                                   title='社会新闻'/>
+                                                   title='幼儿医疗保健'/>
                             </div>
                         </Col>
 
@@ -52,9 +52,9 @@ export default class PCNewsContainer extends React.Component {
 
                     <Row>
 
-                        <PCNewsImageBlock count={16} type='guonei' width='100%' imageWidth='112px' cartTitle='国内新闻'
+                        <PCNewsImageBlock count={16} type='guonei' width='100%' imageWidth='112px' cartTitle='幼儿生理知识'
                                           justifyContent='space-start'/>
-                        <PCNewsImageBlock count={16} type='yule' width='100%' imageWidth='112px' cartTitle='娱乐新闻'
+                        <PCNewsImageBlock count={16} type='yule' width='100%' imageWidth='112px' cartTitle='幼儿生理知识'
                                           justifyContent='space-start'/>
                     </Row>
 
