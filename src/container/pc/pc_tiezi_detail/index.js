@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './index.css';
+import './index.scss';
 
 import { Comment, Avatar, Form, Button, List, Input,Tooltip } from 'antd';
 import moment from 'moment';
