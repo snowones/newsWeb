@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import './index.scss';
 
-import {Button,Icon,Input,Row,Col,Upload,Modal} from 'antd';
-
+import {Button,Icon,Input,Row,Col,Upload,Modal,Select,message} from 'antd';
+import {api,host} from '../../../until'
 const { TextArea } = Input;
+const { Option } = Select;
+
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -27,6 +29,7 @@ class Fenxiang extends Component {
             previewVisible: false,
             previewImage: '',
             fileList: [],
+            wenzhangType:1,//文章类别选择框，默认为第一个
         }
     }
 
@@ -115,6 +118,7 @@ class Fenxiang extends Component {
             content.congtentWarn = '请输入文章内容';
             content.img = '文章图片'
             content.imgLength = 1;
+            content.Button = '发表文章';
         }else if(type == 2){
             content.title = '帖子标题';
             content.titleWarn = '请输入帖子标题';
@@ -124,6 +128,7 @@ class Fenxiang extends Component {
             content.congtentWarn = '请输入帖子内容';
             content.img = '帖子图片'
             content.imgLength = 3;
+            content.Button = '发表帖子';
         }
 
         return(
@@ -159,9 +164,50 @@ class Fenxiang extends Component {
                     <Col span={4}>{content.content}</Col>
                     <Col span={20} ><TextArea  autoSize={{ minRows: 6, maxRows: 20 }} value = {this.state.content} onChange = {(e) => {this.changeInput('content',e)} }  placeholder={content.congtentWarn} /></Col>
                 </Row>
+                <Row className ='item' style={{marginTop:'30px'}}>
+                    <Col offset={6} span={12}> 
+                        <Button type="primary" block onClick={()=>{this.submit()}}>
+                            {content.Button}
+                        </Button>
+                    </Col>
+                </Row>
+               
             </div>
         )
 
+    }
+
+    /**
+     * zyx
+     * 2020/5/18
+     * 选择文章类别
+     */
+    showWenzhangType = ()=>{
+        let {type} = this.state;
+        if(type == 1){
+            return(
+                <Row className ='item'>
+                    <Col span={4}>文章类目</Col>
+                    <Col span={5} >
+                    <Select defaultValue="lucy" style={{ width: 220 }} onChange={this.selectChange}>
+                        <Option value="1">幼儿生理知识</Option>
+                        <Option value="2">幼儿疾病知识</Option>
+                        <Option value="3">近日热搜</Option>
+                    </Select>
+                    </Col>
+                </Row>
+            )
+        }
+    }
+
+    /**
+     * zyx
+     * 选择的值
+     */
+    selectChange = (value)=>{
+        this.setState({
+            wenzhangType:value,
+        })
     }
 
     /**
@@ -238,6 +284,47 @@ class Fenxiang extends Component {
     onRemove = file => {
         console.log(file);
     };
+
+
+    /**
+     * zyx
+     * 2020/5/18
+     * 点击上传 如果type是1 就是上传文章 如果type是2 就是上传帖子
+     */
+    submit = ()=>{
+        let {type,title,subTitle,content,img,wenzhangType} = this.state;
+        if( !type || !title || !subTitle || !content || !img || !wenzhangType ) {
+            message.warning('请把信息输入完整');
+            return 0;
+        }
+        
+
+        // if(type == 1){
+        //     api({
+        //         url:host + 'xxx',
+        //         args: {
+        //             id
+        //         },
+        //         callback: (res) => {
+
+        //         }
+        //     });
+
+        // }else if(type == 2){
+        //     api({
+        //         url:host + 'xxx',
+        //         args: {
+        //             id
+        //         },
+        //         callback: (res) => {
+
+        //         }
+        //     });
+
+        // }
+        
+        
+    }
    
 
     render() {
@@ -248,7 +335,8 @@ class Fenxiang extends Component {
                     {this.showHeader()}
                 </div>
                 <div className='form'>
-                   {this.showform()}
+                    {this.showWenzhangType()}
+                    {this.showform()}
                 </div>
             </div>
         );
