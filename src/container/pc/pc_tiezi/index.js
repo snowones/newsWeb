@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.scss';
 import {Link} from 'react-router';
 
-import { List, Avatar, Icon } from 'antd';
+import { List, Avatar, Icon,Col,Row} from 'antd';
 
 
 class Tiezi extends Component {
@@ -50,11 +50,6 @@ class Tiezi extends Component {
                     pageSize: 5,
                     }}
                     dataSource={listData}
-                    // footer={
-                    //     <div>
-                    //         <b>ant design</b> footer part
-                    //     </div>
-                    // }
                     renderItem={item => (
                         <Link to={`tieziDetails/${item.id}`} target='_blank'>
                             <List.Item
@@ -64,14 +59,6 @@ class Tiezi extends Component {
                                 <IconText type="like-o" text="156" key="list-vertical-like-o" />,
                                 <IconText type="message" text="2" key="list-vertical-message" />,
                                 ]}
-                                extra={
-                                <img
-                                    width={272}
-                                    alt="logo"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                                />
-                                }
-                                
                             >
                             <List.Item.Meta
                                 avatar={<Avatar src={item.avatar} />}
@@ -79,7 +66,33 @@ class Tiezi extends Component {
                                 description={item.description}
                                 />
                                 {item.content}
+                                <div>
+                                    <Row>
+                                        <Col span={6}> 
+                                            <img
+                                                width={272}
+                                                alt="logo"
+                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                            />
+                                        </Col>
+                                        <Col span={6}> 
+                                            <img
+                                                width={272}
+                                                alt="logo"
+                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                            />
+                                        </Col>
+                                        <Col span={6}> 
+                                            <img
+                                                width={272}
+                                                alt="logo"
+                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                            />
+                                        </Col>
+                                    </Row>
+                                </div>
                             </List.Item>
+                            
                         </Link>
                     )}
                 />
