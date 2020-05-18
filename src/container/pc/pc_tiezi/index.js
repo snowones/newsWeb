@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './index.scss';
+import {Link} from 'react-router';
 
 import { List, Avatar, Icon } from 'antd';
 
@@ -20,6 +21,7 @@ class Tiezi extends Component {
         const listData = [];
         for (let i = 0; i < 23; i++) {
         listData.push({
+            id: i,
             href: 'http://ant.design',
             title: `ant design part ${i}`,
             avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -54,28 +56,31 @@ class Tiezi extends Component {
                     //     </div>
                     // }
                     renderItem={item => (
-                        <List.Item
-                            key={item.title}
-                            actions={[
-                            <IconText type="star-o" text="156" key="list-vertical-star-o" />,
-                            <IconText type="like-o" text="156" key="list-vertical-like-o" />,
-                            <IconText type="message" text="2" key="list-vertical-message" />,
-                            ]}
-                            extra={
-                            <img
-                                width={272}
-                                alt="logo"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                            />
-                            }
-                        >
+                        <Link to={`tieziDetails/${item.id}`} target='_blank'>
+                            <List.Item
+                                key={item.title}
+                                actions={[
+                                <IconText type="star-o" text="156" key="list-vertical-star-o" />,
+                                <IconText type="like-o" text="156" key="list-vertical-like-o" />,
+                                <IconText type="message" text="2" key="list-vertical-message" />,
+                                ]}
+                                extra={
+                                <img
+                                    width={272}
+                                    alt="logo"
+                                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                />
+                                }
+                                
+                            >
                             <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
-                            description={item.description}
-                            />
-                            {item.content}
-                        </List.Item>
+                                avatar={<Avatar src={item.avatar} />}
+                                // title={<a href={tieziDetails}>{item.title}</a>}
+                                description={item.description}
+                                />
+                                {item.content}
+                            </List.Item>
+                        </Link>
                     )}
                 />
             </div>
