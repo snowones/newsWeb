@@ -5,9 +5,21 @@ import PCApp from './container/pc/pc_app';
 import MobileApp from './container/mobile/mobile_app';
 import MediaQuery from 'react-responsive';
 import {Router, Route,hashHistory,IndexRoute} from 'react-router';
-import PCNewsDetail from './container/pc/pc_news_detail';
+
 import MobileNewsDetail from './container/mobile/mobile_news_detail';
 import PCNewsContainer from './container/pc/pc_news_container';
+//帖子模块
+import Tiezi from './container/pc/pc_tiezi';
+//文章模块
+import Wenzhang from './container/pc/pc_wenzhang';
+//分享模块
+import Fenxiang from './container/pc/pc_fenxiang';
+//文章详情模块
+import WenzhangDetail from './container/pc/pc_wenzhang_detail';
+//帖子详情
+import TieziDetail from './container/pc/pc_tiezi_detail'
+
+
 
 class App extends Component {
     render() {
@@ -18,14 +30,11 @@ class App extends Component {
                         <Route path='/' component={PCApp}>
                             <IndexRoute component={PCNewsContainer}/>
                             <Route path='/top' component={PCNewsContainer}/>
-                            <Route path='/shehui' component={Shehui}/>
-                            <Route path='/guonei' component={Guonei}/>
-                            <Route path='/guoji' component={Guoji}/>
-                            <Route path='/yule' component={Yule}/>
-                            <Route path='/tiyu' component={Tiyu}/>
-                            <Route path='/keji' component={Keji}/>
-                            <Route path='/shishang' component={Shishang}/>
-                            <Route path='/details/:uniquekey' component={PCNewsDetail}/>
+                            <Route path='/tiezi' component={Tiezi}/>
+                            <Route path='/wenzhang' component={Wenzhang}/>
+                            <Route path='/fenxiang' component={Fenxiang}/>
+                            <Route path='/details/:uniquekey' component={WenzhangDetail}/>
+                            <Route path='/tieziDetails/:uniquekey' component={TieziDetail}/>
                         </Route>
                     </Router>
                 </MediaQuery>
@@ -41,53 +50,5 @@ class App extends Component {
         );
     }
 }
-
-//定义了一些组件做示例
-
-const Shehui=function () {
-  return(
-      <div>社会</div>
-  );
-};
-
-
-const Guonei=function () {
-    return(
-        <div>国内</div>
-    );
-};
-
-const Guoji=function () {
-    return(
-        <div>国际</div>
-    );
-};
-
-
-const Yule=function () {
-    return(
-        <div>娱乐</div>
-    );
-};
-
-
-const Tiyu=function () {
-    return(
-        <div>体育</div>
-    );
-};
-
-
-const Keji=function () {
-    return(
-        <div>科技</div>
-    );
-};
-
-const Shishang=function () {
-    return(
-        <div>时尚</div>
-    );
-};
 
 export default App;

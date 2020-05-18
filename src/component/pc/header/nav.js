@@ -23,47 +23,23 @@ export default class Nav extends React.Component{
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item key="shehui">
-                    <Link to='/shehui'>
-                        <Icon type="appstore"/>今日头条
+                <Menu.Item key="wenzhang">
+                    <Link to='/wenzhang'>
+                        <Icon type="appstore"/>疾病防治信息浏览
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item key="guonei">
-                    <Link to='/guonei'>
-                        <Icon type="appstore"/>幼儿疾病知识
+                <Menu.Item key="tiezi">
+                    <Link to='/tiezi'>
+                        <Icon type="appstore"/>交流疾病防治信息
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item key="guoji">
-                    <Link to='/guoji'>
-                        <Icon type="appstore"/>幼儿医疗保健
+                <Menu.Item key="fenxiang">
+                    <Link to='/fenxiang'>
+                        <Icon type="appstore"/>分享疾病防治信息
                     </Link>
                 </Menu.Item>
-
-                <Menu.Item key="yule">
-                    <Link to='/yule'>
-                        <Icon type="appstore"/>幼儿生理知识
-                    </Link>
-                </Menu.Item>
-
-                {/* <Menu.Item key="tiyu">
-                    <Link to='/tiyu'>
-                        <Icon type="appstore"/>体育
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="    ">
-                    <Link to='/keji'>
-                        <Icon type="appstore"/>科技
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="shishang">
-                    <Link to='/shishang'>
-                        <Icon type="appstore"/>时尚
-                    </Link>
-                </Menu.Item> */}
                 {userShow}
             </Menu>
 

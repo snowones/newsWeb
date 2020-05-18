@@ -1,9 +1,9 @@
 import React from 'react';
 import {Row, Col} from 'antd';
-import PCNewsImageBlock from '../../component/pc/topcontent/pc_news_image/pc_news_imageblock';
-import Comment from '../../component/common/common_comment';
+import PCNewsImageBlock from '../../../component/pc/topcontent/pc_news_image/pc_news_imageblock';
+import Comment from '../../../component/common/common_comment';
 
-export default class PCNewsDetail extends React.Component {
+export default class WenzhangDetail extends React.Component {
     constructor() {
         super();
         this.state = {
