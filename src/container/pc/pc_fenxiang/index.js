@@ -137,6 +137,8 @@ class Fenxiang extends Component {
                             fileList={fileList}
                             onPreview={this.handlePreview}
                             onChange={this.handleChange}
+                            beforeUpload = {this.beforeUpload}
+                            onRemove={this.onRemove}
                             >
                             {fileList.length >= content.imgLength ? null : uploadButton}
                         </Upload>
@@ -197,12 +199,45 @@ class Fenxiang extends Component {
         }
         this.setState({ 
             fileList,
-            img:file.preview
-        },()=>{
-            console.log(this.state.img)
         })
     };
 
+    /**
+	 * zyx
+	 * 2019.10.21
+	 * 上传文件之前的钩子，参数为上传的文件
+	 */
+	beforeUpload = (file) => {
+		let formData = new FormData();
+		formData.append('file', file);
+		fetch('http://182.92.64.245/tp5/public/index.php/index/index/savaImgToOss', {
+			method:'post',
+			body: formData
+		}).then(response => response.json())
+		.catch(error => console.error('Error:', error))
+		.then(response => {
+            let msg = response.msg;
+            let img = this.state.img;
+            img.push(msg);
+            this.setState({
+                img
+            },()=>{
+                console.log(this.state.img);
+            })
+		})
+    }
+
+    /**
+     * zyx/2020/5/18
+     * 上传图片这里有个bug
+     * 我再上传图片前的回调函数里把图片上传到了oss中
+     * 但是删除方法里我无法知道我删除的是第几个图片
+     * 也就无法删除img数组内被删除的图片链接
+     */
+
+    onRemove = file => {
+        console.log(file);
+    };
    
 
     render() {
