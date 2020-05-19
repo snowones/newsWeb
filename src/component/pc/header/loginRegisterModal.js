@@ -4,7 +4,8 @@ import WrappedRegisterForm from './WrappedRegisterForm'
 import WrappedLoginForm from './WrappedLoginForm'
 
 export default class LoginRegisterModal extends React.Component {
-    handleCancel(){
+    //注册登录弹窗
+    handleCancel = () => {
         this.props.setModalVisible(false);
     }
 
@@ -13,8 +14,8 @@ export default class LoginRegisterModal extends React.Component {
         return(
 
             <Modal title="用户中心" visible={this.props.visible}
-                   onCancel={this.handleCancel.bind(this)}
-                   onOk={this.handleCancel.bind(this)}>
+                   onCancel={this.handleCancel}
+                   onOk={this.handleCancel}>
                 <Tabs type="card">
                     <Tabs.TabPane tab='登录' key='1'>
                         <WrappedLoginForm login={this.props.login} setModalVisible={this.props.setModalVisible}/>
