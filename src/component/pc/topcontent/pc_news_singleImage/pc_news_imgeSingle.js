@@ -1,5 +1,6 @@
 import React from 'react';
-import ImageSingleComponent from './imageSingle_component'
+import ImageSingleComponent from './imageSingle_component';
+import {api,host} from '../../../../until';
 
  export default class PCNewsImageSingle extends React.Component{
     constructor(props) {
@@ -9,54 +10,45 @@ import ImageSingleComponent from './imageSingle_component'
 
     //页面渲染之前
     componentDidMount() {
-        // let fetchOption = {method: 'GET'};
-        // fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, fetchOption).then(response => response.json()).then(json => this.setState({news: json}));
-    
-        //先用静态数据
-        let data = [{
-            uniquekey:'1',
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片链接
-            title:'lgd真菜啊啊啊啊啊啊啊啊啊啊',//标题
-            realtype:'ti10',//新闻类别
-            author_name:'张应祥',//作者名称
-        },
-        {
-            uniquekey:'2',
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片链接
-            title:'lgd真菜啊啊啊啊啊啊啊啊啊啊',//标题
-            realtype:'ti10',//新闻类别
-            author_name:'张应祥',//作者名称
-        },
-        {
-            uniquekey:'3',
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片链接
-            title:'lgd真菜啊啊啊啊啊啊啊啊啊啊',//标题
-            realtype:'ti10',//新闻类别
-            author_name:'张应祥',//作者名称
-        },
-        {
-            uniquekey:'4',
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片链接
-            title:'lgd真菜啊啊啊啊啊啊啊啊啊啊',//标题
-            realtype:'ti10',//新闻类别
-            author_name:'张应祥',//作者名称
-        },
-        {
-            uniquekey:'5',
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片链接
-            title:'lgd真菜啊啊啊啊啊啊啊啊啊啊',//标题
-            realtype:'ti10',//新闻类别
-            author_name:'张应祥',//作者名称
-        },
-        {
-            uniquekey:'6',
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片链接
-            title:'lgd真菜啊啊啊啊啊啊啊啊啊啊',//标题
-            realtype:'ti10',//新闻类别
-            author_name:'张应祥',//作者名称
-        },]
-
-        this.setState({news:data})
+         //动态获取数据 根据传入得type
+         let wenzhangType = this.props.type;
+         /**
+          * zyx
+          * 2020/5/19
+          * 拿到数据
+          */
+        api({
+            url:host + 'newsSelectContentByType',
+            args: {
+                type:1,
+                wenzhangType,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showData(res);
+            }
+        });
+    }
+      /**
+     * zyx
+     * 2020/5/19
+     * 处理数据
+     */
+    showData = (data)=>{
+        let listData = [];
+        for (let i = 0; i < data.length; i++) {
+            let img = JSON.parse(data[i].img);
+            listData.push({
+                uniquekey: data[i].id,
+                thumbnail_pic_s: img[0],
+                title: data[i].title,
+                author_name: data[i].name,
+                realtype:'口腔疾病'
+            });
+        }
+        this.setState({
+            news:listData
+        })
     }
 
     render(){

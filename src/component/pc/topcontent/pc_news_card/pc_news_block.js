@@ -1,5 +1,6 @@
 import React from 'react';
 import PCNewsComponent from './pc_news_Component';
+import {api,host} from '../../../../until';
 
 export default class PCNewsBlock extends React.Component {
     constructor(props) {
@@ -9,75 +10,43 @@ export default class PCNewsBlock extends React.Component {
 
     //页面渲染后触发
     componentDidMount() {
-        // let fetchOption = {method: 'GET'};
-        // fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, fetchOption).then(response => response.json()).then(json => this.setState({news: json}));
-       
-        //先渲染静态
-        let data = [{
-            uniquekey:'1',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'2',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'3',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'4',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'5',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'6',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'7',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'8',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'9',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'10',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'11',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'12',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'13',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'1',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'14',//id
-            title:'今日重磅新闻：美国新馆肺炎突破100w了！！',//大标题 比较长的那种
-        },
-        {
-            uniquekey:'15',//id
-            title:'国际疫情已到300w，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',//大标题 比较长的那种
-        }]
-        this.setState({news:data})
+         //动态获取数据 根据传入得type
+         let wenzhangType = this.props.type;
+         /**
+          * zyx
+          * 2020/5/19
+          * 拿到数据
+          */
+        api({
+            url:host + 'newsSelectContentByType',
+            args: {
+                type:1,
+                wenzhangType,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showData(res);
+            }
+        });
+    }
+
+     /**
+     * zyx
+     * 2020/5/19
+     * 处理数据
+     */
+    showData = (data)=>{
+        let listData = [];
+        for (let i = 0; i < data.length; i++) {
+            let img = JSON.parse(data[i].img);
+            listData.push({
+                uniquekey: data[i].id,
+                title: data[i].title,
+            });
+        }
+        this.setState({
+            news:listData
+        })
     }
 
 

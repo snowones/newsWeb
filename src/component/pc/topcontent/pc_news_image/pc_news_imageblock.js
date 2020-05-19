@@ -1,5 +1,7 @@
 import React from 'react';
 import ImageNewsComponent from './image_news_component';
+import {api,host} from '../../../../until';
+import './index.scss';
 
 export default class PCNewsImageBlock extends React.Component {
     constructor(props) {
@@ -8,41 +10,46 @@ export default class PCNewsImageBlock extends React.Component {
     }
 
     componentDidMount() {
+        //动态获取数据 根据传入得type
+        let wenzhangType = this.props.type;
+        /**
+         * zyx
+         * 2020/5/19
+         * 拿到数据
+         */
+        api({
+            url:host + 'newsSelectContentByType',
+            args: {
+                type:1,
+                wenzhangType,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showData(res);
+            }
+        });
         
-        //暂时先用静态数据
-        let data = [{
-            uniquekey:'1',//id
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片的src
-            title:'新闻1',//标题名称
-            author_name:'张应祥',//作者名称
-        },{
-            uniquekey:'2',//id
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片的src
-            title:'新闻2',//标题名称
-            author_name:'张应祥',//作者名称
-        },{
-            uniquekey:'3',//id
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片的src
-            title:'新闻2',//标题名称
-            author_name:'张应祥',//作者名称
-        },{
-            uniquekey:'4',//id
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片的src
-            title:'新闻2',//标题名称
-            author_name:'张应祥',//作者名称
-        },{
-            uniquekey:'5',//id
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片的src
-            title:'新闻2',//标题名称
-            author_name:'张应祥',//作者名称
-        },{
-            uniquekey:'6',//id
-            thumbnail_pic_s:'https://1978246522-max.oss-cn-hangzhou.aliyuncs.com/u%3D1717847492%2C1311910060%26fm%3D26%26gp%3D0.jpg',//图片的src
-            title:'新闻2',//标题名称
-            author_name:'张应祥',//作者名称
-        }]
-        
-        this.setState({news: data})
+    }
+
+     /**
+     * zyx
+     * 2020/5/19
+     * 处理数据
+     */
+    showData = (data)=>{
+        let listData = [];
+        for (let i = 0; i < data.length; i++) {
+            let img = JSON.parse(data[i].img);
+            listData.push({
+                uniquekey: data[i].id,
+                thumbnail_pic_s: img[0],
+                title: data[i].title,
+                author_name: data[i].name,
+            });
+        }
+        this.setState({
+            news:listData
+        })
     }
 
     render() {
@@ -54,7 +61,7 @@ export default class PCNewsImageBlock extends React.Component {
 
         return (
 
-            <div>{newsImage}</div>
+            <div className='pc_news_imgblock'>{newsImage}</div>
         );
     }
 }
