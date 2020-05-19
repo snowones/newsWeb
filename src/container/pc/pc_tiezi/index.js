@@ -3,34 +3,62 @@ import './index.scss';
 import {Link} from 'react-router';
 
 import { List, Avatar, Icon,Col,Row} from 'antd';
+import {api,host} from '../../../until'
 
 
 class Tiezi extends Component {
     constructor(props){
         super(props);
         this.state = {
+            dataList:[],//页面展示得全部数据
 
         }
     }
 
     componentDidMount(){
+        /**
+         * zyx
+         * 2020/5/19
+         * 拿到数据
+         */
+        api({
+            url:host + 'newsSelectContentByType',
+            args: {
+                type:2,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showData(res);
+            }
+        });
+    }
 
+    /**
+     * zyx
+     * 2020/5/19
+     * 处理数据
+     */
+    showData = (data)=>{
+        let listData = [];
+        for (let i = 0; i < data.length; i++) {
+            let img = JSON.parse(data[i].img);
+            listData.push({
+                id: data[i].id,
+                title: data[i].title + '：' +data[i].subtitle,
+                avatar: data[i].avatar,
+                description: data[i].title + '：' +data[i].subtitle,
+                content:data[i].content,
+                img,
+            });
+        }
+        this.setState({
+            dataList:listData
+        })
     }
 
     render() {
-        const listData = [];
-        for (let i = 0; i < 23; i++) {
-        listData.push({
-            id: i,
-            href: 'http://ant.design',
-            title: `ant design part ${i}`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-            'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-            'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        });
-        }
+        let listData = this.state.dataList;
+      
 
         const IconText = ({ type, text }) => (
             <span>
@@ -62,7 +90,6 @@ class Tiezi extends Component {
                             >
                             <List.Item.Meta
                                 avatar={<Avatar src={item.avatar} />}
-                                // title={<a href={tieziDetails}>{item.title}</a>}
                                 description={item.description}
                                 />
                                 {item.content}
@@ -72,21 +99,21 @@ class Tiezi extends Component {
                                             <img
                                                 width={272}
                                                 alt="logo"
-                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                                src={item.img[0]}
                                             />
                                         </Col>
                                         <Col span={6}> 
                                             <img
                                                 width={272}
                                                 alt="logo"
-                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                                src={item.img[1]}
                                             />
                                         </Col>
                                         <Col span={6}> 
                                             <img
                                                 width={272}
                                                 alt="logo"
-                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                                src={item.img[2]}
                                             />
                                         </Col>
                                     </Row>

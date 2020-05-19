@@ -158,7 +158,7 @@ class Fenxiang extends Component {
                 </Row>
                 <Row className ='item'>
                     <Col span={4}>{content.subtile}</Col>
-                    <Col span={20} ><Input value = {this.state.subTitle} onChange = {(e) => {this.changeInput('subTitle',e)} }  placeholder={content.subtitleWarn} /></Col>
+                    <Col span={20} ><Input value = {this.state.subtitle} onChange = {(e) => {this.changeInput('subtitle',e)} }  placeholder={content.subtitleWarn} /></Col>
                 </Row>
                 <Row className ='item'>
                     <Col span={4}>{content.content}</Col>
@@ -189,10 +189,12 @@ class Fenxiang extends Component {
                 <Row className ='item'>
                     <Col span={4}>文章类目</Col>
                     <Col span={5} >
-                    <Select defaultValue="幼儿生理知识" style={{ width: 220 }} onChange={this.selectChange}>
-                        <Option value="1">幼儿生理知识</Option>
-                        <Option value="2">幼儿疾病知识</Option>
-                        <Option value="3">近日热搜</Option>
+                    <Select defaultValue="呼吸道疾病" style={{ width: 220 }} onChange={this.selectChange}>
+                        <Option value="1">呼吸道疾病</Option>
+                        <Option value="2">传染类疾病</Option>
+                        <Option value="3">口腔疾病</Option>
+                        <Option value="4">皮肤疾病</Option>
+                        <Option value="5">肠道疾病</Option>
                     </Select>
                     </Col>
                 </Row>
@@ -292,36 +294,51 @@ class Fenxiang extends Component {
      * 点击上传 如果type是1 就是上传文章 如果type是2 就是上传帖子
      */
     submit = ()=>{
-        let {type,title,subTitle,content,img,wenzhangType} = this.state;
-        if( !type || !title || !subTitle || !content || !img || !wenzhangType ) {
+        let {type,title,subtitle,content,img,wenzhangType} = this.state;
+        if( !type || !title || !subtitle || !content || !img || !wenzhangType ) {
             message.warning('请把信息输入完整');
             return 0;
         }
-        
+        //拿到用户id
+        let user_id = localStorage.userId;
+        if(!user_id){
+            message.warning('请登录');
+            return 0;
+        }
 
-        // if(type == 1){
-        //     api({
-        //         url:host + 'xxx',
-        //         args: {
-        //             id
-        //         },
-        //         callback: (res) => {
+        //转为字符串
+        img = JSON.stringify(img);
+        if(type == 2){
+            //如果type为2说明是帖子 也就没有这个属性
+            wenzhangType = 0;
+        }
 
-        //         }
-        //     });
+        api({
+            url:host + 'newsInsertConent',
+            args: {
+                user_id,
+                title,
+                subtitle,
+                content,
+                img,
+                wenzhangType,
+                type
+            },
+            callback: (res) => {
+                message.success('上传成功');
+                this.setState({
+                    title:'',//标题
+                    subtitle:'',//大纲
+                    content:'',//内容
+                    img:[],//图片
+                    previewVisible: false,
+                    previewImage: '',
+                    fileList: [],
+                    wenzhangType:1,//文章类别选择框，默认为第一个
+                })
+            }
+        });
 
-        // }else if(type == 2){
-        //     api({
-        //         url:host + 'xxx',
-        //         args: {
-        //             id
-        //         },
-        //         callback: (res) => {
-
-        //         }
-        //     });
-
-        // }
         
         
     }

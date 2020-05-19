@@ -1,50 +1,202 @@
-import React from 'react';
-import {Row, Col} from 'antd';
-import PCNewsImageBlock from '../../../component/pc/topcontent/pc_news_image/pc_news_imageblock';
-import Comment from '../../../component/common/common_comment';
+import React, { Component } from 'react';
+import './index.scss';
 
-export default class WenzhangDetail extends React.Component {
-    constructor() {
-        super();
+import { Comment, Avatar, Form, Button, List, Input, message } from 'antd';
+import moment from 'moment';
+
+import {api,host} from '../../../until'
+const { TextArea } = Input;
+
+//输入评论列表
+const CommentList = ({ comments }) => (
+    <List
+        dataSource={comments}
+        header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+        itemLayout="horizontal"
+        renderItem={props => <Comment {...props} />}
+    />
+);
+//输入评论框
+const Editor = ({ onChange, onSubmit, submitting, value }) => (
+    <div>
+        <Form.Item>
+            <TextArea rows={4} onChange={onChange} value={value} />
+        </Form.Item>
+        <Form.Item>
+            <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
+                Add Comment
+            </Button>
+        </Form.Item>
+    </div>
+);
+
+
+
+
+class WenzhangDetail extends Component {
+    constructor(props){
+        super(props);
         this.state = {
-            newsItem: ''
-        };
+            comments: [],
+            submitting: false,
+            value: '',
+            data:{},
+        }
     }
 
-    componentDidMount() {
-        let fetchOption = {
-            method: 'GET'
-        };
-        fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=" + this.props.params.uniquekey, fetchOption)
-            .then(response => response.json())
-            .then(json => {
-                this.setState({newsItem: json});
-                document.title = this.state.newsItem.title + "-新闻头条";
+    componentDidMount(){
+        //拿到文章数据
+        let id = this.props.params.uniquekey;
+        console.log(this.props.params.uniquekey);
+        api({
+            url:host + 'newsSelectContentByType',
+            args: {
+                id,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showWenzhangData(res);
+            }
+        });
+
+        this.onChange();
+
+    }
+
+    onChange = ()=>{
+        let pid = this.props.params.uniquekey;
+        api({
+            url:host + 'newsSelectAllComment',
+            args: {
+                pid,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showCommentData(res);
+            }
+        });
+    }
+
+   /**
+     * zyx
+     * 2020/5/19
+     * 处理数据
+     */
+    showWenzhangData = (data)=>{
+        //临时存放数据
+        let handleData = {};
+        handleData.content =data[0].content;
+        this.setState({
+            data:handleData
+        })
+    }
+
+    /**
+     * zyx
+     * 2020/5/19
+     * 处理评论数据
+     */
+    showCommentData = (data) =>{
+        let tempData = [];
+        for (let i = 0; i < data.length; i++) {
+            tempData.push({
+                id: data[i].id,
+                author: data[i].name,
+                avatar: data[i].avatar,
+                content: data[i].content,
+                datatime:data[i].create_time,
             });
+        }
+        this.setState({
+            comments:tempData
+        })
     }
 
-    createMarkup() {
-        return {__html: this.state.newsItem.pagecontent};
+
+    insertCommentData = ()=>{
+
+        let user_id = localStorage.userId;
+        let pid = this.props.params.uniquekey;
+        let comment = this.state.value;
+        if(!user_id){
+            message.warn("请先登录");
+            return 0;
+        }
+        /**
+         * zyx
+         * 2020/5/19
+         * 插入评论
+         */
+        api({
+            url:host + 'newsInsertComment',
+            args: {
+                user_id,
+                pid,
+                content:comment,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.onChange();
+                this.setState({
+                    submitting: false,
+                    value: '',
+                });
+            }
+        });
     }
+
+    handleSubmit = () => {
+        if (!this.state.value) {
+            return;
+        }
+
+        this.setState({
+            submitting: true,
+        });
+
+        
+        //动画暂停
+        setTimeout(() => {
+
+            this.insertCommentData();
+
+        }, 1000);
+    };
+    
+    handleChange = e => {
+        this.setState({
+            value: e.target.value,
+        });
+    };
 
     render() {
+        const { comments, submitting, value,data } = this.state;
+        let {userName,userAvatar } = localStorage;
         return (
-
-            <div>
-                <Row>
-                    <Col span={2}/>
-                    <Col span={14}>
-                        <div style={{marginTop: '50px'}} dangerouslySetInnerHTML={this.createMarkup()}/>
-                        <Comment uniquekey={this.props.params.uniquekey}/>
-                    </Col>
-                    <Col span={1}/>
-                    <Col span={6}>
-                        <PCNewsImageBlock imageWidth='150px' width='100%'  count={40} type='top' cartTitle='推荐'/>
-                    </Col>
-                    <Col span={1}/>
-                </Row>
+            <div className='tiezi_detail_container'>
+                <div style={{marginBottom:'30px'}}>
+                    {data.content}
+                </div>
+                {comments.length > 0 && <CommentList comments={comments} />}
+                <Comment
+                    avatar={
+                        <Avatar
+                        src={userAvatar}
+                        alt={userName}
+                        />
+                    }
+                    content={
+                        <Editor
+                        onChange={this.handleChange}
+                        onSubmit={this.handleSubmit}
+                        submitting={submitting}
+                        value={value}
+                        />
+                    }
+                />
             </div>
-
         );
     }
 }
+
+export default WenzhangDetail;

@@ -26,16 +26,16 @@ export default class PCNewsContainer extends React.Component {
                                     <div><img src={img3}/></div>
                                     <div><img src={img4}/></div>
                                 </Carousel>
-                                <PCNewsImageBlock count={6} type='guoji' width='100%' imageWidth='112px'
-                                                  cartTitle='幼儿疾病知识' justifyContent='space-around'/>
+                                <PCNewsImageBlock count={6} type='4' width='100%' imageWidth='112px'
+                                                  cartTitle='皮肤疾病' justifyContent='space-around'/>
                             </div>
                         </Col>
 
                         <Col span={10}>
                             <div className='top_center'>
                                 <Tabs defaultActiveKey="1">
-                                    <Tabs.TabPane tab='今日头条' key='1'>
-                                        <PCNewsBlock count={30} type='top' width='100%' bordered='false'/>
+                                    <Tabs.TabPane tab='肠道疾病' key='1'>
+                                        <PCNewsBlock count={30} type='5' width='100%' bordered='false'/>
                                     </Tabs.TabPane>
                                 </Tabs>
                             </div>
@@ -43,8 +43,8 @@ export default class PCNewsContainer extends React.Component {
 
                         <Col span={6}>
                             <div className='top_right'>
-                                <PCNewsImageSingle width='100%' ImageWidth='100px' type='shehui' count={6}
-                                                   title='幼儿医疗保健'/>
+                                <PCNewsImageSingle width='100%' ImageWidth='100px' type='3' count={6}
+                                                   title='口腔疾病'/>
                             </div>
                         </Col>
 
@@ -52,9 +52,9 @@ export default class PCNewsContainer extends React.Component {
 
                     <Row>
 
-                        <PCNewsImageBlock count={16} type='guonei' width='100%' imageWidth='112px' cartTitle='幼儿生理知识'
+                        <PCNewsImageBlock count={16} type='2' width='100%' imageWidth='112px' cartTitle='传染类疾病'
                                           justifyContent='space-start'/>
-                        <PCNewsImageBlock count={16} type='yule' width='100%' imageWidth='112px' cartTitle='幼儿生理知识'
+                        <PCNewsImageBlock count={16} type='1' width='100%' imageWidth='112px' cartTitle='呼吸道疾病'
                                           justifyContent='space-start'/>
                     </Row>
 

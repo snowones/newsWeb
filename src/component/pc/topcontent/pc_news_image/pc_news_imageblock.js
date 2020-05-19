@@ -8,9 +8,7 @@ export default class PCNewsImageBlock extends React.Component {
     }
 
     componentDidMount() {
-        // let fetchOption = {method: 'Get'};
-        // fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, fetchOption).then(response => response.json()).then(json => this.setState({news: json}));
-       
+        
         //暂时先用静态数据
         let data = [{
             uniquekey:'1',//id

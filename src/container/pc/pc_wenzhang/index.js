@@ -3,34 +3,61 @@ import './index.scss';
 import {Link} from 'react-router';
 
 import { List, Avatar, Icon} from 'antd';
+import {api,host} from '../../../until'
 
 
 class Wenzhang extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+            dataList:[],
         }
     }
 
     componentDidMount(){
+         /**
+         * zyx
+         * 2020/5/19
+         * 拿到数据
+         */
+        api({
+            url:host + 'newsSelectContentByType',
+            args: {
+                type:1,
+            },
+            callback: (res) => {
+                console.log(res);
+                this.showData(res);
+            }
+        });
 
     }
 
-    render() {
-        const listData = [];
-        for (let i = 0; i < 23; i++) {
-        listData.push({
-            id: i,
-            href: 'http://ant.design',
-            title: `ant design part ${i}`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-            'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-            'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        });
+      /**
+     * zyx
+     * 2020/5/19
+     * 处理数据
+     */
+    showData = (data)=>{
+        let listData = [];
+        for (let i = 0; i < data.length; i++) {
+            let img = JSON.parse(data[i].img);
+            listData.push({
+                id: data[i].id,
+                title: data[i].title + '：' +data[i].subtitle,
+                avatar: data[i].avatar,
+                description: data[i].title + '：' +data[i].subtitle,
+                content:data[i].content,
+                img,
+            });
         }
+        this.setState({
+            dataList:listData
+        })
+    }
+
+    render() {
+        let listData = this.state.dataList;
 
         const IconText = ({ type, text }) => (
             <span>
@@ -39,7 +66,7 @@ class Wenzhang extends Component {
             </span>
         );
         return (
-            <div className='tiezi-container' style={{margin:"30px 100px"}}>
+            <div className='tiezi-container'>
                 <List
                     itemLayout="vertical"
                     size="large"
@@ -63,7 +90,7 @@ class Wenzhang extends Component {
                                 <img
                                     width={272}
                                     alt="logo"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                    src={item.img[0]}
                                 />
                                 }
                                 
