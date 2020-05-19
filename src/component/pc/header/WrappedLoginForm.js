@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon,Form, Input, Button,Checkbox} from 'antd';
+import {Icon,Form, Input, Button,Checkbox,message} from 'antd';
 import './pc_header.css';
 import {api,host} from '../../../until';
 //登录表单组件
@@ -18,25 +18,32 @@ class LoginForm extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', formData);
 
-                // api({
-                //     url:host +'newsCreateUser',
-                //     args: {
-                //         name,
-                //         account,
-                //         password,
-                //         avatar
-                //     },
-                //     callback: (res) => {
-                //         console.log(res);
-                //         if(res.code == '400'){
-                //             message.warn("注册失败，该账户已存在");
-                //         }else{
-                //             message.success("注册成功");
-                //             //设置模态框消失
-                //             this.props.setModalVisible(false);
-                //         }
-                //     }
-                // });
+                let {account,password} = formData;
+
+                api({
+                    url:host +'newsLogin',
+                    args: {
+                        account,
+                        password,
+                    },
+                    callback: (res) => {
+                        console.log(res);
+                        if(res.code == '401'){
+                            message.warn("登录失败，该账户不存在");
+                            return 0;
+                        }else if(res.code == '402'){
+                            message.warn("登录失败，密码错误");
+                            return 0;
+                        }else{
+                            
+                                let userLogin = {userName: res.msg[0].name, userId: res.msg[0].id,userAvatar:res.msg[0].avatar};
+                                this.props.login(userLogin);
+                                //设置模态框消失
+                                this.props.setModalVisible(false);
+                           
+                        }
+                    }
+                });
             }
         });
     }
@@ -47,15 +54,15 @@ class LoginForm extends React.Component {
             <Form onSubmit={this.handleLoginSubmit}>
 
                 <Form.Item>
-                    {getFieldDecorator('userName', {
+                    {getFieldDecorator('account', {
                         rules: [{
                             required: true,
-                            message: 'Please input your username!'
+                            message: 'Please input your account!'
                         }],
                     })(
                         <Input prefix={<Icon type="user"
                                              style={{color: 'rgba(0,0,0,.25)'}}/>}
-                               placeholder="Username"/>
+                               placeholder="account"/>
                     )}
                 </Form.Item>
 

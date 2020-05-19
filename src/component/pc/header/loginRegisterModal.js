@@ -12,7 +12,6 @@ export default class LoginRegisterModal extends React.Component {
     render(){
 
         return(
-
             <Modal title="用户中心" visible={this.props.visible}
                    onCancel={this.handleCancel}
                    onOk={this.handleCancel}>
@@ -23,7 +22,6 @@ export default class LoginRegisterModal extends React.Component {
                     <Tabs.TabPane tab='注册' key='2'>
                         <WrappedRegisterForm setModalVisible={this.props.setModalVisible}/>
                     </Tabs.TabPane>
-
                 </Tabs>
             </Modal>
         );

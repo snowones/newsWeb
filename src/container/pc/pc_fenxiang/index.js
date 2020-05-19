@@ -189,7 +189,7 @@ class Fenxiang extends Component {
                 <Row className ='item'>
                     <Col span={4}>文章类目</Col>
                     <Col span={5} >
-                    <Select defaultValue="lucy" style={{ width: 220 }} onChange={this.selectChange}>
+                    <Select defaultValue="幼儿生理知识" style={{ width: 220 }} onChange={this.selectChange}>
                         <Option value="1">幼儿生理知识</Option>
                         <Option value="2">幼儿疾病知识</Option>
                         <Option value="3">近日热搜</Option>

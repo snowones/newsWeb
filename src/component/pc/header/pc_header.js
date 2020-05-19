@@ -51,12 +51,14 @@ export default class PCHeader extends React.Component {
         this.setState({userName: userLogin.userName, hasLogined: true, userId: userLogin.userId});
         localStorage.userName = userLogin.userName;
         localStorage.userId = userLogin.userId;
+        localStorage.userAvatar = userLogin.userAvatar;
     }
 
     //点击MenuItem中退出登录按钮
     logout() {
         localStorage.userName = '';
         localStorage.userId = '';
+        localStorage.userAvatar = '';
         this.setState({hasLogined: false, userName: '', userId: ''});
     };
 
